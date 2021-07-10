@@ -868,4 +868,4 @@ async def leave(ctx):
 
 # function from other files
 
-client.run("NzYyMjU2ODI1NjIxODA3MTA0.X3mg_Q.SntuUx7iGFkxKkyCI4wlgrfH_rI")
+client.run(TOKEN)
