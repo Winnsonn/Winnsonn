@@ -23,13 +23,11 @@ from platform import python_version
 import os
 import wolframalpha
 import youtube_dl  # pip install -U discord.py[voice], pip install youtube-dl, pip install --upgrade youtube-dl
-
 """ if music command not working do the following command ^^ in shell """
 import shutil
 from os import system
 import urllib.request
 from googletrans import Translator
-
 
 # start
 
@@ -73,6 +71,23 @@ async def on_ready():
                                  activity=discord.Streaming(name=" **?!help** to start",
                                                             url='https://discord.com/api/oauth2/authorize?client_id=762256825621807104&permissions=8&scope=bot'))
     print('Im ready and logged in {0.user}'.format(client))
+
+
+#SWITCHBLOX building server only
+
+@client.event
+async def on_raw_reaction_add(payload):
+    """This is the reaction role event"""
+    if payload.message_id == 866258028412272660:
+        guild = client.get_guild(payload.guild_id)
+        channel = guild.get_channel(payload.channel_id)
+
+        if payload.emoji.name == '❌':
+            await payload.member.kick(reason=None)
+        elif payload.emoji.name == '✅':
+            role_name = 'Applying'
+            role = await commands.RoleConverter().convert(channel, role_name)
+            await payload.member.add_roles(role, reason="auto role")
 
 
 # @client.event
@@ -176,20 +191,80 @@ async def on_message_delete(message):
 
 client.remove_command("help")
 
-
 @client.command()
 async def help(ctx):
     ownerid = '<@466528033638055936>'
-    embed = discord.Embed(
-        title="Help Command",
-        description=(
-                    "{0.user} is a bot that can do some things and some commands can be added to it if you can just give some suggestions to it, ".format(
-                        client) + f"dm {ownerid}\n\nPrefix: ``?!``\n\nCommands:\n-``help``: shows this message\n -``define (word)``: defines a word from wikipedia\n -``tictactoe (@player1) (@player2)`` \n-``solve (1st number) (operation) (2nd number) `` \n-``invitebot``: sends an invite link of the bot\n -``tempconvert (1st number) (Temp symbol) to (temp symbol)``\n -``quote``: sends a quote \n -``fact``: sends a fact \n -``mathfact``: sends a math fact \n-``triviafact``: sends a trivia fact\n -``8ball (question)``\n -``refresh``: refreshes the bot\n-``oracle (question)``: answers almost every questions\n-``howhot (user)``: tells how hot a person is\n-``slot``: just a slot minigame\n-``snipe``: snipes a deleted message\n-``reverse (message)``: sends the reverse of the message\n-``info (user)``: sends an information about the user\n-``purge (number)``: deletes the amount of message\n-``serverinfo``: send the server's information\n-``translate (lang) (sentence)``: translate a sentence from different languages\n-``langdetect (sentence)``: detects what language is the sentence and tells the format of a language\n-``setreportchannel (channel)``: makes ?!report command work \n-``report (user) (reason)``: reports a user"),
-        color=discord.Colour.gold()
-    )
-    embed.set_author(name="NotARobot",
-                     icon_url='https://scontent.fmnl4-5.fna.fbcdn.net/v/t1.15752-9/79164084_574144910039928_5634080804029071360_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=ae9488&_nc_eui2=AeE7JwwXuci6hesiv6azd7-MX3eHdHXFj1Vfd4d0dcWPVfHWn_KCQW_5Et4k1UHO5e2Z4zkfZjQG-n7nwZbOYv-Z&_nc_ohc=vy63kNq1vVIAX9mA7IS&_nc_ht=scontent.fmnl4-5.fna&oh=97150d719bb985004a32343f56ba1dde&oe=60C092A8')
-    await ctx.send(embed=embed)
+    embedFIRST = discord.Embed(title="-HELP COMMAND-\n🔖Knowledge",
+                               description="Commands containing about knowledge and education",
+                               colour=discord.Colour.gold()
+                               )
+    embedFIRST.add_field(name="Commands:", value="``?!fact`` : sends facts\n``?!quote`` : sends quotes\n``?!langdetect (sentence)`` : detects what language is the sentence"
+                                                 "\n``?!translate (language(from langdetect)) (sentence)`` : translates a sentence\n``?!oracle (question)`` :"
+                                                 "answers almost every questions\n``?!define (question)`` : answers questions based from english wikipedia\n"
+                                                 "``?!tempconvert (1st number) (Temp symbol) (2nd number)`` : converts temperatures")
+    embedFIRST.set_author(name="NotARobot/NotaroBot",
+                         icon_url='https://scontent.fmnl4-5.fna.fbcdn.net/v/t1.15752-9/79164084_574144910039928_5634080804029071360_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=ae9488&_nc_eui2=AeE7JwwXuci6hesiv6azd7-MX3eHdHXFj1Vfd4d0dcWPVfHWn_KCQW_5Et4k1UHO5e2Z4zkfZjQG-n7nwZbOYv-Z&_nc_ohc=vy63kNq1vVIAX9mA7IS&_nc_ht=scontent.fmnl4-5.fna&oh=97150d719bb985004a32343f56ba1dde&oe=60C092A8')
+
+    embedSECOND = discord.Embed(title="-HELP COMMAND-\n🎲Games",
+                                description="Just Fun and Games that the bot has",
+                                colour=discord.Colour.gold()
+                                )
+    embedSECOND.add_field(name="Commands:",value="``?!8ball (question)`` : Yes or no...\n``?!tictactoe (player1) (player2)`` : play tictactoe with someone\n"
+                                                 "``?!slot`` : slot machine\n``?!hothow (user)`` : tells how hot a user is\n``?!reverse (sentence)`` : spells the sentence in reverse")
+    embedSECOND.set_author(name="NotARobot/NotaroBot",
+                         icon_url='https://scontent.fmnl4-5.fna.fbcdn.net/v/t1.15752-9/79164084_574144910039928_5634080804029071360_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=ae9488&_nc_eui2=AeE7JwwXuci6hesiv6azd7-MX3eHdHXFj1Vfd4d0dcWPVfHWn_KCQW_5Et4k1UHO5e2Z4zkfZjQG-n7nwZbOYv-Z&_nc_ohc=vy63kNq1vVIAX9mA7IS&_nc_ht=scontent.fmnl4-5.fna&oh=97150d719bb985004a32343f56ba1dde&oe=60C092A8')
+
+
+    embedTHIRD= discord.Embed(title="-HELP COMMAND-\n🛠️Moderation",
+                              description="Use for informations or updates for the server",
+                              colour=discord.Colour.gold()
+                              )
+    embedTHIRD.add_field(name="Commands:",value="``?!setreportchannel (channel)`` : sets the report command's channel\n``?!report (user) (reason)`` : reports a user to server staffs\n"
+                                                "``?!userinfo (user)`` : sends the information of the user\n``?!serverinfo`` : sends the information of the server\n"
+                                                "``?!snipe`` : sends the recent deleted message\n``?!purge (number)`` : deletes the amount of messages in the channel\n``?!invitebot`` : sends a discord Bot invite link ")
+    embedTHIRD.set_author(name="NotARobot/NotaroBot",
+                           icon_url='https://scontent.fmnl4-5.fna.fbcdn.net/v/t1.15752-9/79164084_574144910039928_5634080804029071360_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=ae9488&_nc_eui2=AeE7JwwXuci6hesiv6azd7-MX3eHdHXFj1Vfd4d0dcWPVfHWn_KCQW_5Et4k1UHO5e2Z4zkfZjQG-n7nwZbOYv-Z&_nc_ohc=vy63kNq1vVIAX9mA7IS&_nc_ht=scontent.fmnl4-5.fna&oh=97150d719bb985004a32343f56ba1dde&oe=60C092A8')
+
+    embedMAIN = discord.Embed(title = "-HELP COMMAND-",
+                            description=f"-{client.user} is a discord bot made by {ownerid}, the bot is a custom bot that can do alot of things\n\nPrefix: ?!\n\n-React to see how to use the commands:\n❌ will bring you back here\n",
+                            colour=discord.Colour.gold()
+               )
+    embedMAIN.add_field(name="🔖Knowledge", value="-quote\n-translate\n-langdetect \n-oracle\n-define\n-tempconvert", inline=True)
+    embedMAIN.add_field(name="🎲Games", value="-8ball\n-tictactoe\n-slot\n-howhot\n-reverse", inline=True)
+    embedMAIN.add_field(name="🛠️Moderation", value="-setreportchannel\n-report\n-userinfo\n-serverinfo\n-snipe\n-purge\n-invitebot", inline=False)
+    embedMAIN.set_author(name="NotARobot/NotaroBot",icon_url='https://scontent.fmnl4-5.fna.fbcdn.net/v/t1.15752-9/79164084_574144910039928_5634080804029071360_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=ae9488&_nc_eui2=AeE7JwwXuci6hesiv6azd7-MX3eHdHXFj1Vfd4d0dcWPVfHWn_KCQW_5Et4k1UHO5e2Z4zkfZjQG-n7nwZbOYv-Z&_nc_ohc=vy63kNq1vVIAX9mA7IS&_nc_ht=scontent.fmnl4-5.fna&oh=97150d719bb985004a32343f56ba1dde&oe=60C092A8')
+
+
+    msg = await ctx.send(embed=embedMAIN)
+    await msg.add_reaction( "🔖")
+    await msg.add_reaction("🎲")
+    await msg.add_reaction("🛠️")
+    await msg.add_reaction("❌")
+    valid_reactions = ["🔖","🎲","🛠️","❌"]
+
+
+    def check(reaction, user):
+        return (str(reaction.emoji) in valid_reactions) and (user.id != 762256825621807104) and (reaction.message.id == msg.id)
+        #return (str(reaction.emoji) in valid_reactions) and (user.id == ctx.author.id) and (reaction.message.id == msg.id)
+
+    while True:
+        try:
+            reaction, user = await client.wait_for("reaction_add", check=check, timeout=60)
+
+        except asyncio.TimeoutError:
+            return
+        if str(reaction.emoji) == "🔖":
+            await msg.edit(embed=embedFIRST)
+            await msg.remove_reaction("🔖", user)
+        if str(reaction.emoji) == "🎲":
+            await msg.edit(embed=embedSECOND)
+            await msg.remove_reaction("🎲", user)
+        if str(reaction.emoji) == "🛠️":
+            await msg.edit(embed=embedTHIRD)
+            await msg.remove_reaction("🛠️",user)
+        if str(reaction.emoji) == "❌":
+            await msg.edit(embed=embedMAIN)
+            await msg.remove_reaction("❌",user)
 
 @client.command()
 @commands.has_permissions(manage_channels=True, administrator=True)
@@ -283,18 +358,20 @@ async def snipe(message):
     if snipe_message_content == None:
         await message.channel.send("Theres nothing to snipe.")
     else:
-        embed = discord.Embed(description=f"<@{snipe_message_author}> >> {snipe_message_content}")
+        embed = discord.Embed(
+            description= f"**<@{snipe_message_author}>**\n\n{snipe_message_content}")
         embed.set_footer(text=f"Asked by {message.author.name}#{message.author.discriminator}",
                          icon_url=message.author.avatar_url)
-        embed.set_author(name=f"Message Sniped")
+        embed.set_author(name="Message Sniped")
         await message.channel.send(embed=embed)
         return
 
 
-@client.command()
+@client.command(aliases = ["invite"])
 async def invitebot(ctx):
     embed132 = discord.Embed(
         title="Invite me to your server: ",
+        url="https://dsc.gg/notarobot",
         description="``2 types of invites``\n\n**Role with admin:** https://discord.com/api/oauth2/authorize?client_id=762256825621807104&permissions=8&scope=bot\n\n**Role without Admin:** https://discord.com/api/oauth2/authorize?client_id=762256825621807104&permissions=4294967287&scope=bot",
         colour=discord.Colour.blurple()
     )
@@ -308,7 +385,7 @@ async def serverscount(ctx):
     await ctx.send("I'm in " + str(len(client.guilds)) + " servers!")
 
 
-@client.command()
+@client.command(aliases = ['server'])
 async def serverinfo(ctx):
     name = str(ctx.guild.name)
     description = str(ctx.guild.description)
@@ -715,7 +792,7 @@ async def langdetect(ctx, *, sentence):
     await ctx.send(output)
 
 
-@client.command(aliases=['user'])
+@client.command(aliases=['user','userinfo'])
 async def info(ctx, user: discord.Member):
     """Gets info on a member, such as their ID."""
     try:
@@ -865,7 +942,5 @@ async def leave(ctx):
         await ctx.send("Don't think I am in a voice channel")
 
 
-
-# function from other files
 
 client.run(TOKEN)
